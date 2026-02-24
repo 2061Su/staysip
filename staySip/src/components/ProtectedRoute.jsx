@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   }
 
   if (allowedRoles && !allowedRoles.includes(role)) {
-    return <Navigate to="/" />; // Redirect home if they don't have permission
+    return <Navigate to="/" />; 
   }
 
   return children;

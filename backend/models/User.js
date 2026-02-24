@@ -33,7 +33,7 @@ const User = sequelize.define('User', {
 }
 }, {
   hooks: {
-    // Hash password before saving to database
+   
     beforeCreate: async (user) => {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(user.password, salt);

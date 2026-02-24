@@ -13,6 +13,6 @@ router.post('/login', login);
 router.post('/forgot-password', forgotPassword);
 
 router.get('/pending-reception', getPendingReceptionists);
-router.put('/approve/:userId', approveUser);
+router.put('/approve/:id', approveUser);
 
 module.exports = router;

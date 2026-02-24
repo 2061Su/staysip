@@ -19,11 +19,13 @@ const UserLogin = () => {
         email,
         password,
       });
+      const { token, user } = response.data;
 
       
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('role', response.data.user.role);
-      localStorage.setItem('userName', response.data.user.name);
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', user.role);
+      localStorage.setItem('userName', user.name);
+      localStorage.setItem('userId', user.id)
 
       
       navigate('/dashboard');

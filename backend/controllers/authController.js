@@ -84,13 +84,13 @@ exports.login = async (req, res) => {
     }
 };
 
-// Add this to authController.js temporarily
+
 exports.resetAdminPassword = async (req, res) => {
     try {
         const user = await User.findOne({ where: { email: 'admin@gmail.com' } });
         if (!user) return res.status(404).send("Admin not found");
 
-        // This triggers the 'beforeCreate' or 'beforeUpdate' hook to hash it properly
+        
         user.password = 'admin@gmail'; 
         await user.save();
 
@@ -135,10 +135,12 @@ exports.getPendingReceptionists = async (req, res) => {
 };
 
 
+
 exports.approveUser = async (req, res) => {
     try {
-        const { userId } = req.params;
-        const user = await User.findByPk(userId);
+        
+        const { id } = req.params; 
+        const user = await User.findByPk(id);
         
         if (!user) return res.status(404).json({ error: "User not found" });
 
@@ -164,3 +166,51 @@ exports.getStats = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    await User.destroy({ where: { id, role: 'reception' } }); 
+    res.json({ message: "Staff member removed successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+exports.deleteStaff = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await User.destroy({ where: { id, role: 'reception' } });
+        res.json({ message: "Receptionist deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+exports.getActiveStaff = async (req, res) => {
+    try {
+        const staff = await User.findAll({ 
+            where: { role: 'reception', isApproved: true },
+            attributes: ['id', 'name', 'email']
+        });
+        res.json(staff);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+exports.deleteStaff = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await User.destroy({ where: { id, role: 'reception' } });
+        res.json({ message: "Staff member removed successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
